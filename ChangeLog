@@ -1,15 +1,31 @@
-2002-08-14  Autrijus Tang <autrijus@autrijus.org>
+Version 1.4  2002-10-02  Autrijus Tang <autrijus@autrijus.org>
+
+	Added functions equivalant of Term::ANSIColor 1.04.
+
+	$ENV{ANSI_COLOR_DISABLED} and uncolor() are supported.
+
+	Added setscroll(), contributed to Cory Johns.
+
+	Exceptions are now handled by croak() instead of die().
+
+	Documented the Win32::Console emulation mode.  It now
+	does not take a ($flag) anymore -- on Win32 it will
+	always spawn a Win32::Console object instead and the
+	constructor arguments are passed to that module verbatim.
+
+	Numerous test fixes.
+
+Version 1.3  2002-08-14  Autrijus Tang <autrijus@autrijus.org>
 
 	Massive style changes.  No functional difference.
 
-
-2001-02-01  Autrijus Tang <autrijus@autrijus.org>
+Version 1.2  2001-02-01  Autrijus Tang <autrijus@autrijus.org>
 
         Added the functionality to double as Win32::Console
         object; simply pass a Term::ANSIScreen->new($flag)
         to create it. If $flag is true and the OS is Win32,
         it will spawn an Win32::Console object instead.
 
-2001-01-11  Autrijus Tang <autrijus@autrijus.org>
+Version 1.0  2001-01-11  Autrijus Tang <autrijus@autrijus.org>
 
 	The Initial release of version 1.0.

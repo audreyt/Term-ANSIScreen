@@ -1,8 +1,8 @@
-# $File: //member/autrijus/ANSIScreen/ANSIScreen.pm $ $Author: autrijus $
-# $Revision: #2 $ $Change: 632 $ $DateTime: 2002/08/14 02:45:25 $
+# $File: //member/autrijus/Term-ANSIScreen/ANSIScreen.pm $ $Author: autrijus $
+# $Revision: #2 $ $Change: 1134 $ $DateTime: 2002/10/02 02:00:16 $
 
 package Term::ANSIScreen;
-$Term::ANSIScreen::VERSION = '1.3';
+$Term::ANSIScreen::VERSION = '1.40';
 
 =head1 NAME
 
@@ -22,6 +22,8 @@ Term::ANSIScreen - Terminal control using ANSI escape sequences.
     print locate(24,60), "@ This is (24,60)"; loadpos;
     print down(2), clline, "@ This is (3,15)\n";
 
+    setscroll 1, 20;
+
     color 'black on white'; clline;
     print "This line is black on white.\n";
     print color 'reset'; print "This text is normal.\n";
@@ -39,6 +41,12 @@ Term::ANSIScreen - Terminal control using ANSI escape sequences.
     print BOLD GREEN . ON_BLUE "Bold green on blue.", CLEAR;
     print "\nThis text is normal.\n";
 
+    # Win32::Console emulation mode
+    # this will return a Win32::Console object on a Win32 platform
+    my $console = Term::ANSIScreen->new;
+
+    $console->Cls;
+
 =cut
 
 # ------------------------
@@ -48,7 +56,7 @@ Term::ANSIScreen - Terminal control using ANSI escape sequences.
 require 5.001;
 
 use vars qw/@ISA @EXPORT %EXPORT_TAGS $VERSION $AUTOLOAD
-            %attributes %sequences $AUTORESET $EACHLINE/;
+            %attributes %attributes_r %sequences $AUTORESET $EACHLINE/;
 
 
 use strict;
@@ -84,6 +92,7 @@ use Exporter;
     'cls'       => '2J',      'clline'    => 'K',
     'locate'    => '?;?H',    'setmode'   => '?h',
     'wrapon'    => '7h',      'wrapoff'   => '7l',
+    'setscroll'	=> '?;?r',
 );
 
 my %mapped;
@@ -94,24 +103,23 @@ my %mapped;
 
 @ISA         = qw/Exporter/;
 %EXPORT_TAGS = (
-    'color'     => [qw/color colored/],
+    'color'     => [qw/color colored uncolor/],
     'cursor'    => [qw/locate up down right left savepos loadpos/],
-    'screen'    => [qw/cls clline setmode wrapon wrapoff/],
+    'screen'    => [qw/cls clline setmode wrapon wrapoff setscroll/],
     'keyboard'  => [qw/setkey resetkey/],
     'constants' => [map {uc($_)} keys(%attributes), 'ON'],
 );
 
 $EXPORT_TAGS{all} = [map {@{$_}} values (%EXPORT_TAGS)];
 
-@EXPORT = @{$EXPORT_TAGS{'color'}};
+@EXPORT = qw(color colored);
 Exporter::export_ok_tags (keys(%EXPORT_TAGS));
 
 sub new {
     my $class = shift;
 
-    if ($^O eq 'MSWin32' and @_) {
-        require Win32::Console;
-        return Win32::Console->new();
+    if ($^O eq 'MSWin32' and eval { require Win32::Console } ) {
+        return Win32::Console->new(@_);
     }
 
     no strict 'refs';
@@ -160,21 +168,29 @@ sub Display {
 # --------------
 
 sub AUTOLOAD {
+    my $enable_colors = !defined $ENV{ANSI_COLORS_DISABLED};
     my $sub;
     ($sub = $AUTOLOAD) =~ s/^.*:://;
 
     if (my $seq = $sequences{$sub}) {
+	return '' unless $enable_colors;
+
         $seq =~ s/\?/defined($_[0]) ? shift(@_) : 1/eg;
-        return (defined wantarray) ? "\e[$seq"
-                                   : print("\e[$seq");
+        return((defined wantarray) ? "\e[$seq"
+                                   : print("\e[$seq"));
     }
     elsif (defined(my $attr = $attributes{lc($sub)}) and $sub =~ /^[A-Z_]+$/) {
-        my $out = "\e[${attr}m@_";
-        $out .= "\e[0m" if ($AUTORESET and @_ and $out !~ /\e\[0m$/s);
-        return $out;
+	my $out = "@_";
+	if ($enable_colors) {
+	    $out = "\e[${attr}m" . $out;
+	    $out .= "\e[0m" if ($AUTORESET and @_ and $out !~ /\e\[0m$/s);
+	}
+        return((defined wantarray) ? $out
+                                   : print($out));
     }
     else {
-        die "Undefined subroutine &$AUTOLOAD called";
+	require Carp;
+        Carp::croak("Undefined subroutine &$AUTOLOAD called");
     }
 }
 
@@ -184,6 +200,8 @@ sub AUTOLOAD {
 # ------------------------------------------------
 
 sub ON {
+    return '' if defined $ENV{ANSI_COLORS_DISABLED};
+
     my $out = "@_";
     $out =~ s/^\e\[3(\d)m/\e\[4$1m/;
     return $out;
@@ -194,6 +212,8 @@ sub ON {
 # ---------------------------------------
 
 sub color {
+    return '' if defined $ENV{ANSI_COLORS_DISABLED};
+
     my @codes = map { split } @_;
     my $attribute;
 
@@ -221,6 +241,8 @@ sub colored {
         ? (join('', @_[1..$#_]), color(@{$_[0]}))
         : (+shift, color(@_));
 
+    return $string if defined $ENV{ANSI_COLORS_DISABLED};
+
     if (defined $EACHLINE) {
         $output  = join '',
             map { ($_ && $_ ne $EACHLINE) ? $attr . $_ . "\e[0m" : $_ }
@@ -231,6 +253,44 @@ sub colored {
 
     return (defined wantarray) ? $output
                                : print($output);
+}
+
+sub uncolor {
+    my (@nums, @result);
+
+    foreach my $seq (@_) {
+        my $escape = $seq;
+        $escape =~ s/^\e\[//;
+        $escape =~ s/m$//;
+        unless ($escape =~ /^((?:\d+;)*\d*)$/) {
+            require Carp;
+            Carp::croak("Bad escape sequence $seq");
+        }
+        push (@nums, split (/;/, $1));
+    }
+
+    _init_attributes_r();
+
+    foreach my $num (@nums) {
+        $num += 0; # Strip leading zeroes
+        my $name = $attributes_r{$num};
+        if (!defined $name) {
+            require Carp;
+            Carp::croak("No name for escape sequence $num" );
+        }
+        push (@result, $name);
+    }
+
+    return @result;
+}
+
+sub _init_attributes_r {
+    return if %attributes_r;
+
+    # Reverse lookup.  Alphabetically first name for a sequence is preferred.
+    for (reverse sort keys %attributes) {
+	$attributes_r{$attributes{$_}} = $_;
+    }
 }
 
 sub setkey {
@@ -262,15 +322,16 @@ sub resetkey {
 }
 
 1;
+
 __END__
 
 =head1 DESCRIPTION
 
-Term::ANSIScreen is a superset of B<Term::ANSIColor>.  In addition
-to color-sequence generating subroutines exported by C<:color>
-and C<:constants>, this module also features C<:cursor> for
-cursor positioning, C<:screen> for screen control, as well
-as C<:keyboard> for key mapping.
+Term::ANSIScreen is a superset of B<Term::ANSIColor> (as of version 1.04
+of that module).  In addition to color-sequence generating subroutines
+exported by C<:color> and C<:constants>, this module also features
+C<:cursor> for cursor positioning, C<:screen> for screen control, as
+well as C<:keyboard> for key mapping.
 
 =head2 NOTES
 
@@ -278,8 +339,8 @@ as C<:keyboard> for key mapping.
 
 =item *
 
-All subroutines in Term::ANSIScreen will print its return value
-if called under a void context.
+All subroutines in Term::ANSIScreen will print its return value if
+called under a void context.
 
 =item *
 
@@ -289,6 +350,24 @@ terminates. You might want to reset them before the end of
 your program.
 
 =back
+
+=head2 B<Win32::Console> emulation mode
+
+When used in a object-oriented fashion, Term::ANSIScreen acts as a
+Win32::Console clone:
+
+    use Term::ANSIScreen;
+    my $console = Term::ANSIScreen->new;
+    $console->Cls();		# unbuffered
+    $console->Cursor(0, 0);	# same as locate(1, 1)
+    $console->Display();	# really a no-op
+
+On the Win32 platform, the C<new> constructor simply returns a geniune
+Win32::Console object, if that module exists in the system.
+
+This feature is intended for people who has to port Win32 console
+applications to other platforms, or to write cross-platform application
+that needs terminal controls.
 
 =head2 The C<:color> function set (exported by default)
 
@@ -410,19 +489,24 @@ set cursor to the 1st column.
 Sets the screen mode to EXPR. Under DOS, ANSI.SYS recognizes
 following values:
 
-   0:  40 x  25 x   2 (text)   1:  40 x  25 x 16 (text)
-   2:  80 x  25 x   2 (text)   3:  80 x  25 x 16 (text)
-   4: 320 x 200 x   4          5: 320 x 200 x  2
-   6: 640 x 200 x   2          7: Enables line wrapping
-  13: 320 x 200 x   4         14: 640 x 200 x 16
-  15: 640 x 350 x   2         16: 640 x 350 x 16
-  17: 640 x 480 x   2         18: 640 x 480 x 16
-  19: 320 x 200 x 256
+     0:  40 x  25 x   2 (text)   1:  40 x  25 x 16 (text)
+     2:  80 x  25 x   2 (text)   3:  80 x  25 x 16 (text)
+     4: 320 x 200 x   4          5: 320 x 200 x  2
+     6: 640 x 200 x   2          7: Enables line wrapping
+    13: 320 x 200 x   4         14: 640 x 200 x 16
+    15: 640 x 350 x   2         16: 640 x 350 x 16
+    17: 640 x 480 x   2         18: 640 x 480 x 16
+    19: 320 x 200 x 256
 
 =item wrapon
 =item wrapoff
 
 Enables/disables the line-wraping mode.
+
+=item setscroll EXPR, EXPR
+
+Causes scrolling to occur only on the lines numbered between
+the first and second arguments, inclusive.
 
 =back
 
@@ -493,7 +577,7 @@ to run under use strict).
 
 Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
 
-Original idea (using constants) by Zenin (zenin@best.com),
+Original idea (using constants) by Zenin (zenin@bawdycaste.com),
 reimplemented using subs by Russ Allbery (rra@stanford.edu),
 and then combined with the original idea by Russ with input
 from Zenin to B<Term::ANSIColor>.
@@ -502,7 +586,7 @@ from Zenin to B<Term::ANSIColor>.
 
 Copyright 2002 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
 
-Based on works of Zenin (zenin@best.com),
+Based on works of Zenin (zenin@bawdycaste.com),
                   Russ Allbery (rra@stanford.edu).
 
 This program is free software; you can redistribute it and/or 
