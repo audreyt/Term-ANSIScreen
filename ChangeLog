@@ -1,0 +1,15 @@
+2002-08-14  Autrijus Tang <autrijus@autrijus.org>
+
+	Massive style changes.  No functional difference.
+
+
+2001-02-01  Autrijus Tang <autrijus@autrijus.org>
+
+        Added the functionality to double as Win32::Console
+        object; simply pass a Term::ANSIScreen->new($flag)
+        to create it. If $flag is true and the OS is Win32,
+        it will spawn an Win32::Console object instead.
+
+2001-01-11  Autrijus Tang <autrijus@autrijus.org>
+
+	The Initial release of version 1.0.

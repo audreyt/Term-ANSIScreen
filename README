@@ -1,0 +1,32 @@
+# $File: //member/autrijus/ANSIScreen/README $ $Author: autrijus $
+# $Revision: #2 $ $Change: 632 $ $DateTime: 2002/08/14 02:45:25 $
+
+This is the README file for Term::ANSIScreen, a Term::ANSIColor clone
+with supports for screen mode, cursor control and keyboard mapping
+sequences.
+
+The author (Autrijus Tang) is aware that the additional features are
+largely superseded by Win32::Console and Curse-based modules, but
+decides to write this for the poor souls still using ANSI.SYS on
+DOSish platforms.
+
+* Installation
+
+Term::ANSIScreen uses the standard perl module install process:
+
+cpansign -v		# see the SIGNATURE file for details
+perl Makefile.PL
+make
+make test
+make install
+
+* Copyright
+
+Copyright 2001, 2002 by Autrijus Tang <autrijus@autrijus.org>,
+Based on works of Zenin (zenin@best.com),
+                  Russ Allbery (rra@stanford.edu).
+
+All rights reserved.  You can redistribute and/or modify
+this bundle under the same terms as Perl itself.
+
+See <http://www.perl.com/perl/misc/Artistic.html>.

@@ -1,0 +1,29 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.05.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It would check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 815558d7be679d8f9b3ada51a7a63ed58d0e6313 ANSIScreen.pm
+SHA1 d3a096e03024d4540c6dc99e7f9ebaf3b98c8b3f ChangeLog
+SHA1 f81bf9783518e52d85057e7d7d36ac400ce63c89 MANIFEST
+SHA1 db5c598e3c4a45792b176c535822337ffc761008 Makefile.PL
+SHA1 d404f6f95b2ea263428dcbdc0a321eecf2d8d8b9 README
+SHA1 954a1707131839706377c6c308f7ff3cc36f8ce0 t/ANSIScreen.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.0.7 (FreeBSD)
+
+iD8DBQE9WitKtLPdNzw1AaARAiAdAJ94Bi5IU7jtTEsjpWsatH1bcUuTuQCfS5Ds
+ip5e6jfw0M/2y8SF01Ub7uk=
+=0xja
+-----END PGP SIGNATURE-----
