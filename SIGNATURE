@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.06.
+signed via the Module::Signature module, version 0.38.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,16 +14,27 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 b4a52558fb309d51cc7e9bb8e40be2e2d9ebee22 ANSIScreen.pm
-SHA1 eb5fee35aa2cabb4d543860ef960db8a94e7b567 ChangeLog
-SHA1 f81bf9783518e52d85057e7d7d36ac400ce63c89 MANIFEST
-SHA1 089f7784879a756ecfde99dc58c775b02fd549f5 Makefile.PL
-SHA1 477f6bfc691aeb7e25fd8650cabd21f7c7300c6a README
-SHA1 5c32cb16f8d97492e8f0f6eb6ef98aac5efde470 t/ANSIScreen.t
+SHA1 d80bc593184b9cd86ef718a6b7314099a70d2e60 ChangeLog
+SHA1 386b20afc8628ccc012589554b3f2c16804972ed MANIFEST
+SHA1 c59533c8705b9aa5f5fe287a0f36bc9c0e7526e6 META.yml
+SHA1 44f51059fbf4db793bc9e5e8f20ebc64932aa8e6 Makefile.PL
+SHA1 18261b9fee38c1f08ed101b51c2c8d5c3027cf8c README
+SHA1 d78c824a321715b390518287a8929623d7a55050 inc/Module/Install.pm
+SHA1 adfc45c82642d3726cc2c871c49062c000ccb0e4 inc/Module/Install/Base.pm
+SHA1 ba881ecfb8e8b9c4ebbc409b8025cac973511197 inc/Module/Install/Can.pm
+SHA1 c03e641fcc136de2fbdd62ce4e82e2dfa8410962 inc/Module/Install/Fetch.pm
+SHA1 876226cc896a285b2409db88d9033071c68cec50 inc/Module/Install/Makefile.pm
+SHA1 2a0dd241db019def435fde8537e600a182750824 inc/Module/Install/Metadata.pm
+SHA1 1915204e46fcee6faf528f8d86aec215e332cc7b inc/Module/Install/Win32.pm
+SHA1 acf1fd355f805442c195dc9dc4e764ad742862e1 inc/Module/Install/WriteAll.pm
+SHA1 b578a74032e50c2800d8346c6378ac43e591bb13 lib/Term/ANSIScreen.pm
+SHA1 58c45878b60a3cc6ebe35267c03a480089cd68ac t/0-signature.t
+SHA1 70d4c59f3f8cc687cc9e29301096f664d8843bca t/1-color.t
+SHA1 107e86a2406b3532357d644500b6f1d93afea8e7 t/2-screen.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.0.7 (FreeBSD)
+Version: GnuPG v1.2.3 (FreeBSD)
 
-iD8DBQE9mlibtLPdNzw1AaARApx9AJ9g3KMBB7qp6Xov0fxQsx/pvv+KkgCfYXPe
-71ZDRNMBnL8THlqd8O180fY=
-=HSnE
+iD8DBQFANjE6tLPdNzw1AaARArQBAJ90cSTpZJvbHFJ8nJM98Z0y/j+sfQCgrzCM
+F39YHWcaYA8f9RlbwEYaPvw=
+=jadS
 -----END PGP SIGNATURE-----

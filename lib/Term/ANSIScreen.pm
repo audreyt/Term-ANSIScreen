@@ -1,12 +1,23 @@
-# $File: //member/autrijus/Term-ANSIScreen/ANSIScreen.pm $ $Author: autrijus $
-# $Revision: #2 $ $Change: 1134 $ $DateTime: 2002/10/02 02:00:16 $
+# $File: //member/autrijus/Term-ANSIScreen/lib/Term/ANSIScreen.pm $ $Author: autrijus $
+# $Revision: #2 $ $Change: 10160 $ $DateTime: 2004/02/20 16:08:52 $
 
+use 5.001;
 package Term::ANSIScreen;
-$Term::ANSIScreen::VERSION = '1.40';
+$Term::ANSIScreen::VERSION = '1.41';
+
+use strict;
+use vars qw/@ISA @EXPORT %EXPORT_TAGS $VERSION $AUTOLOAD
+            %attributes %attributes_r %sequences $AUTORESET $EACHLINE/;
+use Exporter;
 
 =head1 NAME
 
-Term::ANSIScreen - Terminal control using ANSI escape sequences.
+Term::ANSIScreen - Terminal control using ANSI escape sequences
+
+=head1 VERSION
+
+This document describes version 1.41 of Term::ANSIScreen, released
+February 21, 2004.
 
 =head1 SYNOPSIS
 
@@ -34,7 +45,6 @@ Term::ANSIScreen - Terminal control using ANSI escape sequences.
     print "This text is normal.\n";
 
     use Term::ANSIScreen qw/:constants/; # constants mode
-
     print BLUE ON GREEN . "Blue on green.\n";
 
     $Term::ANSIScreen::AUTORESET = 1;
@@ -42,31 +52,15 @@ Term::ANSIScreen - Terminal control using ANSI escape sequences.
     print "\nThis text is normal.\n";
 
     # Win32::Console emulation mode
-    # this will return a Win32::Console object on a Win32 platform
+    # this returns a Win32::Console object on a Win32 platform
     my $console = Term::ANSIScreen->new;
-
-    $console->Cls;
+    $console->Cls;	# also works on non-Win32 platform
 
 =cut
-
-# ------------------------
-# Modules and declarations
-# ------------------------
-
-require 5.001;
-
-use vars qw/@ISA @EXPORT %EXPORT_TAGS $VERSION $AUTOLOAD
-            %attributes %attributes_r %sequences $AUTORESET $EACHLINE/;
-
-
-use strict;
-use Exporter;
 
 # -----------------------
 # Internal data structure
 # -----------------------
-
-# Color attributes, from Term::ANSIColor
 
 %attributes = (
     'clear'      => 0,    'reset'      => 0,
@@ -125,7 +119,7 @@ sub new {
     no strict 'refs';
     unless ($main::FG_WHITE) {
         foreach my $color (grep { $attributes{$_} >= 30 } keys %attributes) {
-            my $name = 'FG_'.uc($color);
+            my $name = "FG_\U$color";
             $name =~ s/^FG_ON_/BG_/;
             ${"main::$name"} = color($color);
             $name =~ s/_/_LIGHT/;
@@ -169,8 +163,8 @@ sub Display {
 
 sub AUTOLOAD {
     my $enable_colors = !defined $ENV{ANSI_COLORS_DISABLED};
-    my $sub;
-    ($sub = $AUTOLOAD) =~ s/^.*:://;
+    my $sub = $AUTOLOAD;
+    $sub =~ s/^.*:://;
 
     if (my $seq = $sequences{$sub}) {
 	return '' unless $enable_colors;
@@ -321,6 +315,10 @@ sub resetkey {
                                : print($output);
 }
 
+sub DESTROY {
+    return;
+}
+
 1;
 
 __END__
@@ -339,22 +337,24 @@ well as C<:keyboard> for key mapping.
 
 =item *
 
-All subroutines in Term::ANSIScreen will print its return value if
+All subroutines in B<Term::ANSIScreen> will print its return value if
 called under a void context.
 
 =item *
 
 The cursor position, current color, screen mode and keyboard
-mappings affected by Term::ANSIScreen will last after the program
+mappings affected by B<Term::ANSIScreen> will last after the program
 terminates. You might want to reset them before the end of
 your program.
 
 =back
 
+=head1 FUNCTIONS
+
 =head2 B<Win32::Console> emulation mode
 
-When used in a object-oriented fashion, Term::ANSIScreen acts as a
-Win32::Console clone:
+When used in a object-oriented fashion, B<Term::ANSIScreen> acts as a
+B<Win32::Console> clone:
 
     use Term::ANSIScreen;
     my $console = Term::ANSIScreen->new;
@@ -363,7 +363,7 @@ Win32::Console clone:
     $console->Display();	# really a no-op
 
 On the Win32 platform, the C<new> constructor simply returns a geniune
-Win32::Console object, if that module exists in the system.
+B<Win32::Console> object, if that module exists in the system.
 
 This feature is intended for people who has to port Win32 console
 applications to other platforms, or to write cross-platform application
@@ -371,7 +371,7 @@ that needs terminal controls.
 
 =head2 The C<:color> function set (exported by default)
 
-Term::ANSIScreen recognizes (case-insensitively) following color
+B<Term::ANSIScreen> recognizes (case-insensitively) following color
 attributes: clear, reset, bold, underline, underscore, blink,
 reverse, concealed, black, red, green, yellow, blue, magenta,
 on_black, on_red, on_green, on_yellow, on_blue, on_magenta,
@@ -456,14 +456,18 @@ and the second one its column number.  If omitted, the cursor
 will be located at (1,1).
 
 =item up    [EXPR]
+
 =item down  [EXPR]
+
 =item left  [EXPR]
+
 =item right [EXPR]
 
 Moves the cursor toward any direction for EXPR characters. If
 omitted, EXPR is 1.
 
 =item savepos
+
 =item loadpos
 
 Saves/restores the current cursor position.
@@ -499,6 +503,7 @@ following values:
     19: 320 x 200 x 256
 
 =item wrapon
+
 =item wrapoff
 
 Enables/disables the line-wraping mode.
@@ -573,18 +578,17 @@ to run under use strict).
 
 =back
 
+=head1 SEE ALSO
+
+L<Term::ANSIColor>, L<Win32::Console>
+
 =head1 AUTHORS
 
 Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
 
-Original idea (using constants) by Zenin (zenin@bawdycaste.com),
-reimplemented using subs by Russ Allbery (rra@stanford.edu),
-and then combined with the original idea by Russ with input
-from Zenin to B<Term::ANSIColor>.
-
 =head1 COPYRIGHT
 
-Copyright 2002 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+Copyright 2001-2003 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
 
 Based on works of Zenin (zenin@bawdycaste.com),
                   Russ Allbery (rra@stanford.edu).

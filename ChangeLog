@@ -1,10 +1,16 @@
-Version 1.4  2002-10-02  Autrijus Tang <autrijus@autrijus.org>
+Version 1.41  2004-02-20  Autrijus Tang <autrijus@autrijus.org>
+
+	Added tests equivalant of Term::ANSIColor 1.08.
+
+	Avoid warnings during DESTROY and tests.
+
+Version 1.40  2002-10-02  Autrijus Tang <autrijus@autrijus.org>
 
 	Added functions equivalant of Term::ANSIColor 1.04.
 
 	$ENV{ANSI_COLOR_DISABLED} and uncolor() are supported.
 
-	Added setscroll(), contributed to Cory Johns.
+	Added setscroll(), contributed by Cory Johns.
 
 	Exceptions are now handled by croak() instead of die().
 
@@ -15,17 +21,17 @@ Version 1.4  2002-10-02  Autrijus Tang <autrijus@autrijus.org>
 
 	Numerous test fixes.
 
-Version 1.3  2002-08-14  Autrijus Tang <autrijus@autrijus.org>
+Version 1.30  2002-08-14  Autrijus Tang <autrijus@autrijus.org>
 
 	Massive style changes.  No functional difference.
 
-Version 1.2  2001-02-01  Autrijus Tang <autrijus@autrijus.org>
+Version 1.20  2001-02-01  Autrijus Tang <autrijus@autrijus.org>
 
         Added the functionality to double as Win32::Console
         object; simply pass a Term::ANSIScreen->new($flag)
         to create it. If $flag is true and the OS is Win32,
         it will spawn an Win32::Console object instead.
 
-Version 1.0  2001-01-11  Autrijus Tang <autrijus@autrijus.org>
+Version 1.00  2001-01-11  Autrijus Tang <autrijus@autrijus.org>
 
-	The Initial release of version 1.0.
+	The Initial release of version 1.00.

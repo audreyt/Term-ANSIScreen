@@ -1,12 +1,12 @@
-# Test suite for the Term::ANSIScreen Perl module.  Before `make install' is
-# performed this script should be runnable with `make test'.  After `make
-# install' it should work as `perl t/ANSIScreen.t'.
+#!/usr/bin/perl
+# $File: //member/autrijus/.vimrc $ $Author: autrijus $
+# $Revision: #14 $ $Change: 4137 $ $DateTime: 2003/02/08 11:41:59 $
 
 ############################################################################
 # Ensure module can be loaded
 ############################################################################
 
-BEGIN { $| = 1; print "1..16\n" }
+BEGIN { $| = 1; print "1..13\n" }
 END   { print "not ok 1\n" unless $loaded }
 delete $ENV{ANSI_COLORS_DISABLED};
 use Term::ANSIScreen qw(:constants color colored uncolor);
@@ -33,7 +33,7 @@ if (colored ("testing", 'blue', 'bold') eq "\e[34;1mtesting\e[0m") {
 }
 
 # Test the constants.
-if ((BLUE BOLD "testing") eq "\e[34m\e[1mtesting") {
+if (BLUE BOLD "testing" eq "\e[34m\e[1mtesting") {
     print "ok 4\n";
 } else {
     print "not ok 4\n";
@@ -41,7 +41,7 @@ if ((BLUE BOLD "testing") eq "\e[34m\e[1mtesting") {
 
 # Test AUTORESET.
 $Term::ANSIScreen::AUTORESET = 1;
-if ((BLUE BOLD "testing") eq "\e[34m\e[1mtesting\e[0m") {
+if (BLUE BOLD "testing" eq "\e[34m\e[1mtesting\e[0m\e[0m") {
     print "ok 5\n";
 } else {
     print "not ok 5\n";
@@ -87,7 +87,7 @@ if (join ('|', @names) eq 'bold|on_green|clear') {
 
 # Test ANSI_COLORS_DISABLED.
 $ENV{ANSI_COLORS_DISABLED} = 1;
-if (color ('blue') == '') {
+if (color ('blue') eq '') {
     print "ok 10\n";
 } else {
     print "not ok 10\n";
@@ -97,41 +97,16 @@ if (colored ('testing', 'blue', 'on_red') eq 'testing') {
 } else {
     print "not ok 11\n";
 }
-if ((GREEN 'testing') eq 'testing') {
+if (GREEN 'testing' eq 'testing') {
     print "ok 12\n";
 } else {
     print "not ok 12\n";
 }
-
-# ---------------------------------
-# ANSIScreen-specific tests follows
-# ---------------------------------
-
 delete $ENV{ANSI_COLORS_DISABLED};
 
-# the special 'ON' syntax.
-if ((BOLD BLUE ON GREEN "testing") eq "\e[1m\e[34m\e[42mtesting\e[0m") {
+# Make sure DARK is exported.  This was omitted in versions prior to 1.07.
+if (DARK "testing" eq "\e[2mtesting\e[0m") {
     print "ok 13\n";
 } else {
     print "not ok 13\n";
-}
-
-if (Term::ANSIScreen->new->can('Cls')) {
-    print "ok 14\n";
-} else {
-    print "not ok 14\n";
-}
-
-Term::ANSIScreen->import(':screen');
-
-if (cls() eq "\e[2J") {
-    print "ok 15\n";
-} else {
-    print "not ok 15\n";
-}
-
-if (setscroll(1, 2) eq "\e[1;2r") {
-    print "ok 16\n";
-} else {
-    print "not ok 16\n";
 }

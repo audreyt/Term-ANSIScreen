@@ -1,5 +1,5 @@
 # $File: //member/autrijus/Term-ANSIScreen/README $ $Author: autrijus $
-# $Revision: #2 $ $Change: 1134 $ $DateTime: 2002/10/02 02:00:16 $
+# $Revision: #3 $ $Change: 3782 $ $DateTime: 2003/01/24 14:49:58 $
 
 This is the README file for Term::ANSIScreen, a Term::ANSIColor clone
 with supports for screen mode, cursor control and keyboard mapping
@@ -22,7 +22,7 @@ make install
 
 * Copyright
 
-Copyright 2001, 2002 by Autrijus Tang <autrijus@autrijus.org>,
+Copyright 2001-2003 by Autrijus Tang <autrijus@autrijus.org>,
 Based on works of Zenin (zenin@bawdycaste.com),
                   Russ Allbery (rra@stanford.edu).
 
