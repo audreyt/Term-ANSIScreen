@@ -14,27 +14,27 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 d80bc593184b9cd86ef718a6b7314099a70d2e60 ChangeLog
+SHA1 6f9964906fe6c5ebbafafc62d71d400b5743be7d ChangeLog
 SHA1 386b20afc8628ccc012589554b3f2c16804972ed MANIFEST
-SHA1 c59533c8705b9aa5f5fe287a0f36bc9c0e7526e6 META.yml
+SHA1 b7c2f8be08e9748fe0a046b56184953d5f6fa7e7 META.yml
 SHA1 44f51059fbf4db793bc9e5e8f20ebc64932aa8e6 Makefile.PL
 SHA1 18261b9fee38c1f08ed101b51c2c8d5c3027cf8c README
-SHA1 d78c824a321715b390518287a8929623d7a55050 inc/Module/Install.pm
-SHA1 adfc45c82642d3726cc2c871c49062c000ccb0e4 inc/Module/Install/Base.pm
-SHA1 ba881ecfb8e8b9c4ebbc409b8025cac973511197 inc/Module/Install/Can.pm
-SHA1 c03e641fcc136de2fbdd62ce4e82e2dfa8410962 inc/Module/Install/Fetch.pm
-SHA1 876226cc896a285b2409db88d9033071c68cec50 inc/Module/Install/Makefile.pm
-SHA1 2a0dd241db019def435fde8537e600a182750824 inc/Module/Install/Metadata.pm
-SHA1 1915204e46fcee6faf528f8d86aec215e332cc7b inc/Module/Install/Win32.pm
-SHA1 acf1fd355f805442c195dc9dc4e764ad742862e1 inc/Module/Install/WriteAll.pm
-SHA1 b578a74032e50c2800d8346c6378ac43e591bb13 lib/Term/ANSIScreen.pm
-SHA1 58c45878b60a3cc6ebe35267c03a480089cd68ac t/0-signature.t
+SHA1 8ce7e929153133eb824fa71678a28952dc251848 inc/Module/Install.pm
+SHA1 b9972b7e2eb9e0f26e6aa1c450736d04d346cc9b inc/Module/Install/Base.pm
+SHA1 79919a7a54f4548dac20075e8dc8869fc41e0ce1 inc/Module/Install/Can.pm
+SHA1 9dd540f8e37b483f2ff7b59edd77425a83221b1c inc/Module/Install/Fetch.pm
+SHA1 eff0614c9c10b5965b1c8c6f81ba4b222a30bb13 inc/Module/Install/Makefile.pm
+SHA1 96622a9c708604cf36d5f44b6fbff26b050e4c9d inc/Module/Install/Metadata.pm
+SHA1 f08018c1a76a07671910d05f06885aaa807ffce1 inc/Module/Install/Win32.pm
+SHA1 ab45068dc0f749d438705201e38d7901df0c824b inc/Module/Install/WriteAll.pm
+SHA1 c33b7b3311ef4497d5b689d961c9277385524589 lib/Term/ANSIScreen.pm
+SHA1 96f884d9409827f87f665296ab7b4bacfd5ad92e t/0-signature.t
 SHA1 70d4c59f3f8cc687cc9e29301096f664d8843bca t/1-color.t
-SHA1 107e86a2406b3532357d644500b6f1d93afea8e7 t/2-screen.t
+SHA1 e982ac7d0adae111963b21e24e57f829929f6e16 t/2-screen.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.2.3 (FreeBSD)
 
-iD8DBQFANjE6tLPdNzw1AaARArQBAJ90cSTpZJvbHFJ8nJM98Z0y/j+sfQCgrzCM
-F39YHWcaYA8f9RlbwEYaPvw=
-=jadS
+iD8DBQFAXwu/tLPdNzw1AaARAllDAKCCJVIGluJJ1PIGEW3oItdTQEjS6gCfZ1HT
+HQt2NXjG5viOprY9YEpWv90=
+=L4pX
 -----END PGP SIGNATURE-----

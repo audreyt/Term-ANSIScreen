@@ -1,3 +1,8 @@
+Version 1.42  2004-03-22  Autrijus Tang <autrijus@autrijus.org>
+
+	Two new :screen commands, "clup" and "cldown", contributed
+	by Benno Puetz.
+
 Version 1.41  2004-02-20  Autrijus Tang <autrijus@autrijus.org>
 
 	Added tests equivalant of Term::ANSIColor 1.08.

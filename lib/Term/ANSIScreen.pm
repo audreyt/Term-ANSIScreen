@@ -1,9 +1,9 @@
 # $File: //member/autrijus/Term-ANSIScreen/lib/Term/ANSIScreen.pm $ $Author: autrijus $
-# $Revision: #2 $ $Change: 10160 $ $DateTime: 2004/02/20 16:08:52 $
+# $Revision: #3 $ $Change: 10439 $ $DateTime: 2004/03/22 15:49:51 $
 
 use 5.001;
 package Term::ANSIScreen;
-$Term::ANSIScreen::VERSION = '1.41';
+$Term::ANSIScreen::VERSION = '1.42';
 
 use strict;
 use vars qw/@ISA @EXPORT %EXPORT_TAGS $VERSION $AUTOLOAD
@@ -17,7 +17,7 @@ Term::ANSIScreen - Terminal control using ANSI escape sequences
 =head1 VERSION
 
 This document describes version 1.41 of Term::ANSIScreen, released
-February 21, 2004.
+March 22, 2004.
 
 =head1 SYNOPSIS
 
@@ -84,6 +84,7 @@ February 21, 2004.
     'right'     => '?C',      'left'      => '?D',
     'savepos'   => 's',       'loadpos'   => 'u',
     'cls'       => '2J',      'clline'    => 'K',
+    'cldown'    => '0J',      'clup'      => '1J',
     'locate'    => '?;?H',    'setmode'   => '?h',
     'wrapon'    => '7h',      'wrapoff'   => '7l',
     'setscroll'	=> '?;?r',
@@ -99,7 +100,7 @@ my %mapped;
 %EXPORT_TAGS = (
     'color'     => [qw/color colored uncolor/],
     'cursor'    => [qw/locate up down right left savepos loadpos/],
-    'screen'    => [qw/cls clline setmode wrapon wrapoff setscroll/],
+    'screen'    => [qw/cls clline cldown clup setmode wrapon wrapoff setscroll/],
     'keyboard'  => [qw/setkey resetkey/],
     'constants' => [map {uc($_)} keys(%attributes), 'ON'],
 );
@@ -488,6 +489,14 @@ cursor to (1,1).
 Clears the current row with the current background color, and
 set cursor to the 1st column.
 
+=item clup
+
+Clears everything above the cursor.
+
+=item cldown
+
+Clears everything below the cursor.
+
 =item setmode EXPR
 
 Sets the screen mode to EXPR. Under DOS, ANSI.SYS recognizes
@@ -588,10 +597,11 @@ Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2001-2003 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+Copyright 2001, 2003, 2003, 2004
+by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
 
 Based on works of Zenin (zenin@bawdycaste.com),
-                  Russ Allbery (rra@stanford.edu).
+Russ Allbery (rra@stanford.edu).
 
 This program is free software; you can redistribute it and/or 
 modify it under the same terms as Perl itself.

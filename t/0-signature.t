@@ -1,6 +1,6 @@
 #!/usr/bin/perl
-# $File: //member/autrijus/Module-Signature/t/0-signature.t $ $Author: autrijus $
-# $Revision: #5 $ $Change: 7212 $ $DateTime: 2003/07/28 14:21:21 $
+# $File: //member/autrijus/Term-ANSIScreen/t/0-signature.t $ $Author: autrijus $
+# $Revision: #1 $ $Change: 10161 $ $DateTime: 2004/02/20 16:10:09 $
 
 use strict;
 use Test::More tests => 1;

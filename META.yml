@@ -1,5 +1,5 @@
 name: Term-ANSIScreen
-version: 1.41
+version: 1.42
 abstract: Terminal control using ANSI escape sequences
 author: Autrijus Tang <autrijus@autrijus.org>
 license: perl
@@ -7,4 +7,4 @@ distribution_type: module
 no_index:
   directory:
     - inc
-generated_by: Module::Install version 0.31
+generated_by: Module::Install version 0.32

@@ -6,7 +6,7 @@
 # Ensure module can be loaded
 ############################################################################
 
-BEGIN { $| = 1; print "1..5\n" }
+BEGIN { $| = 1; print "1..7\n" }
 END   { print "not ok 1\n" unless $loaded }
 delete $ENV{ANSI_COLORS_DISABLED};
 use Term::ANSIScreen qw(:constants color colored uncolor);
@@ -43,4 +43,16 @@ if (setscroll(1, 2) eq "\e[1;2r") {
     print "ok 5\n";
 } else {
     print "not ok 5\n";
+}
+
+if (clup() eq "\e[1J") {
+    print "ok 6\n";
+} else {
+    print "not ok 6\n";
+}
+
+if (cldown() eq "\e[0J") {
+    print "ok 7\n";
+} else {
+    print "not ok 7\n";
 }
