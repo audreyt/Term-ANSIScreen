@@ -16,7 +16,7 @@ Term::ANSIScreen - Terminal control using ANSI escape sequences
 
 =head1 VERSION
 
-This document describes version 1.41 of Term::ANSIScreen, released
+This document describes version 1.42 of Term::ANSIScreen, released
 March 22, 2004.
 
 =head1 SYNOPSIS
@@ -374,9 +374,9 @@ that needs terminal controls.
 
 B<Term::ANSIScreen> recognizes (case-insensitively) following color
 attributes: clear, reset, bold, underline, underscore, blink,
-reverse, concealed, black, red, green, yellow, blue, magenta,
-on_black, on_red, on_green, on_yellow, on_blue, on_magenta,
-on_cyan, and on_white.
+reverse, concealed, black, red, green, blue, white, yellow, magenta,
+cyan, on_black, on_red, on_green, on_blue, on_white, on_yellow,
+on_magenta, and on_cyan.
 
 The color alone sets the foreground color, and on_color sets
 the background color. You may also use on_color without the
