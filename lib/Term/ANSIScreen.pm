@@ -1,9 +1,6 @@
-# $File: //member/autrijus/Term-ANSIScreen/lib/Term/ANSIScreen.pm $ $Author: autrijus $
-# $Revision: #3 $ $Change: 10439 $ $DateTime: 2004/03/22 15:49:51 $
-
-use 5.001;
+use 5.005;
 package Term::ANSIScreen;
-$Term::ANSIScreen::VERSION = '1.42';
+$Term::ANSIScreen::VERSION = '1.50';
 
 use strict;
 use vars qw/@ISA @EXPORT %EXPORT_TAGS $VERSION $AUTOLOAD
@@ -13,11 +10,6 @@ use Exporter;
 =head1 NAME
 
 Term::ANSIScreen - Terminal control using ANSI escape sequences
-
-=head1 VERSION
-
-This document describes version 1.42 of Term::ANSIScreen, released
-March 22, 2004.
 
 =head1 SYNOPSIS
 
@@ -212,6 +204,7 @@ sub color {
     my @codes = map { split } @_;
     my $attribute;
 
+    no warnings 'uninitialized';
     while (my $code = lc(shift(@codes))) {
         $code .= '_' . shift(@codes) if ($code eq 'on');
 
@@ -593,19 +586,15 @@ L<Term::ANSIColor>, L<Win32::Console>
 
 =head1 AUTHORS
 
-Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
+唐鳳 E<lt>cpan@audreyt.orgE<gt>
 
-=head1 COPYRIGHT
+=head1 CC0 1.0 Universal
 
-Copyright 2001, 2003, 2003, 2004
-by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+To the extent possible under law, 唐鳳 has waived all copyright and related
+or neighboring rights to Term-ANSIScreen.
 
-Based on works of Zenin (zenin@bawdycaste.com),
-Russ Allbery (rra@stanford.edu).
+This work is published from Taiwan.
 
-This program is free software; you can redistribute it and/or 
-modify it under the same terms as Perl itself.
-
-See L<http://www.perl.com/perl/misc/Artistic.html>
+L<http://creativecommons.org/publicdomain/zero/1.0>
 
 =cut
